@@ -86,7 +86,7 @@ public class State {
                     case "W":System.out.print(whiteSquare + "  "); break;
                     case "b":System.out.print(blackCircle + "  "); break;
                     case "B":System.out.print(blackSquare + "  "); break;
-                    default: System.out.print(line + "" + line + "  "); break;
+                    default: System.out.print(line + "   "); break;
                 }
             }
             System.out.println("\n");
