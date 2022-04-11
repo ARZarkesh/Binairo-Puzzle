@@ -8,13 +8,12 @@ public class State {
     private static char whiteSquare = '\u2B1C';
     private static char line = '\u23E4';
 
-
     private ArrayList<ArrayList<String>> board;
     private ArrayList<ArrayList<ArrayList<String>>> domain;
     private int n;
 
     public State(ArrayList<ArrayList<String>> board,
-                 ArrayList<ArrayList<ArrayList<String>>> domain) {
+            ArrayList<ArrayList<ArrayList<String>>> domain) {
 
         this.board = board;
         this.domain = domain;
@@ -40,7 +39,7 @@ public class State {
     public State copy() {
         ArrayList<ArrayList<String>> cb = copyBoard(board);
         ArrayList<ArrayList<ArrayList<String>>> cd = copyDomain(domain);
-        return(new State(cb, cd));
+        return (new State(cb, cd));
     }
 
     private ArrayList<ArrayList<String>> copyBoard(ArrayList<ArrayList<String>> cBoard) {
@@ -57,6 +56,7 @@ public class State {
 
         return res;
     }
+
     private ArrayList<ArrayList<ArrayList<String>>> copyDomain(ArrayList<ArrayList<ArrayList<String>>> cDomain) {
         ArrayList<ArrayList<ArrayList<String>>> res = new ArrayList<>();
         for (int i = 0; i < n; i++) {
@@ -82,11 +82,21 @@ public class State {
         for (ArrayList<String> strings : this.getBoard()) {
             for (String s : strings) {
                 switch (s) {
-                    case "w":System.out.print(whiteCircle + "  "); break;
-                    case "W":System.out.print(whiteSquare + "  "); break;
-                    case "b":System.out.print(blackCircle + "  "); break;
-                    case "B":System.out.print(blackSquare + "  "); break;
-                    default: System.out.print(line + "" + line + "  "); break;
+                    case "w":
+                        System.out.print(whiteCircle + "  ");
+                        break;
+                    case "W":
+                        System.out.print(whiteSquare + "  ");
+                        break;
+                    case "b":
+                        System.out.print(blackCircle + "  ");
+                        break;
+                    case "B":
+                        System.out.print(blackSquare + "  ");
+                        break;
+                    default:
+                        System.out.print(line + "" + line + "  ");
+                        break;
                 }
             }
             System.out.println("\n");
