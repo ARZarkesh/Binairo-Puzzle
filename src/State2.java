@@ -24,4 +24,8 @@ public class State2 {
   public String getValue() {
     return value;
   }
+
+  public boolean isDefault() {
+    return isDefault;
+  }
 }
