@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File input = new File("inputs/input2.txt");
+        File input = new File("inputs/input1.txt");
         try {
             Scanner reader = new Scanner(input);
             int boardSize = reader.nextInt();

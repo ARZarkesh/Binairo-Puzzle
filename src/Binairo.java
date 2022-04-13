@@ -13,12 +13,52 @@ public class Binairo {
         board.print();
         drawLine();
 
-        // backtrack(state);
+        if (backtrack(this.board)) {
+            System.out.println("\nSolution found!");
+        } else {
+            System.out.println("\nNo solution found!");
+        }
         long tEnd = System.nanoTime();
+        board.print();
         System.out.println("Total time: " + (tEnd - tStart) / 1000000000.000000000);
     }
 
-    private boolean checkNumberOfCircles() {
+    private boolean backtrack(Board board) {
+        return recursiveBacktrack(board);
+    }
+
+    private boolean recursiveBacktrack(Board board) {
+        if (isFinished(board)) {
+            return true;
+        }
+
+        State2 unassingedCell = selectUnassignedCell(board);
+        for (String value : unassingedCell.getDomain()) {
+            if (isConsistent(board)) {
+                unassingedCell.set(value, false);
+                if (recursiveBacktrack(board)) {
+                    return true;
+                }
+            }
+            unassingedCell.set("e", false);
+        }
+
+        return false;
+    }
+
+    private State2 selectUnassignedCell(Board board) {
+        for (int i = 0; i < board.getSize(); i++) {
+            for (int j = 0; j < board.getSize(); j++) {
+                State2 cell = board.getCell(i, j);
+                if (cell.getValue().equals("e")) {
+                    return cell;
+                }
+            }
+        }
+        return null;
+    }
+
+    private boolean checkNumberOfCircles(Board board) {
         int size = board.getSize();
         // row
         for (int i = 0; i < size; i++) {
@@ -55,7 +95,7 @@ public class Binairo {
         return true;
     }
 
-    private boolean checkAdjacency() {
+    private boolean checkAdjacency(Board board) {
         int size = board.getSize();
         // Horizontal
         for (int i = 0; i < size; i++) {
@@ -83,7 +123,7 @@ public class Binairo {
         return true;
     }
 
-    private boolean checkIfUnique() {
+    private boolean checkIfUnique(Board board) {
         int size = board.getSize();
 
         // check if two rows are duplicated
@@ -120,23 +160,24 @@ public class Binairo {
         return true;
     }
 
-    private boolean allAssigned() {
+    private boolean allAssigned(Board board) {
         int size = board.getSize();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 String cellValue = board.getCell(i, j).getValue();
-                if (cellValue.equals("e")) return false;
+                if (cellValue.equals("e"))
+                    return false;
             }
         }
         return true;
     }
 
-    private boolean isFinished() {
-        return allAssigned() && isConsistent();
+    private boolean isFinished(Board board) {
+        return allAssigned(board) && isConsistent(board);
     }
 
-    private boolean isConsistent() {
-        return checkNumberOfCircles() && checkAdjacency() && checkIfUnique();
+    private boolean isConsistent(Board board) {
+        return checkNumberOfCircles(board) && checkAdjacency(board) && checkIfUnique(board);
     }
 
     private void drawLine() {

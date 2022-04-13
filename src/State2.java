@@ -28,4 +28,8 @@ public class State2 {
   public boolean isDefault() {
     return isDefault;
   }
+
+  public ArrayList<String> getDomain() {
+    return domain;
+  }
 }

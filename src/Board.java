@@ -51,4 +51,8 @@ public class Board {
       System.out.println();
     }
   }
+
+  public State2[][] getCells() {
+    return cells;
+  }
 }
