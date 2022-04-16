@@ -25,7 +25,7 @@ public class Main {
 
                 board.getCell(x, y).set(stringValue, true);
 
-            } // Board and Domain initialized
+            }
             Binairo binairo = new Binairo(board);
             binairo.start();
             reader.close();

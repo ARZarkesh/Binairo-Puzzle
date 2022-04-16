@@ -32,30 +32,53 @@ public class Binairo {
             return true;
         }
 
-        State2 unassingedCell = selectUnassignedCell(board);
-        for (String value : unassingedCell.getDomain()) {
+        State unassignedCell = selectUnassignedCell(board);
+        for (String value : unassignedCell.getRemainingValues()) {
+            unassignedCell.set(value, false);
             if (isConsistent(board)) {
-                unassingedCell.set(value, false);
-                if (recursiveBacktrack(board)) {
-                    return true;
+                // forward check
+                if (forwardCheck(board, unassignedCell)) {
+                    if (recursiveBacktrack(board)) {
+                        return true;
+                    }
                 }
             }
-            unassingedCell.set("e", false);
+            unassignedCell.set("e", false);
+            unassignedCell.resetRemainingValues();
         }
 
         return false;
     }
 
-    private State2 selectUnassignedCell(Board board) {
-        for (int i = 0; i < board.getSize(); i++) {
-            for (int j = 0; j < board.getSize(); j++) {
-                State2 cell = board.getCell(i, j);
+    private boolean forwardCheck(Board board, State cell) {
+        if (!checkSpecificRow(board, cell)) return false;
+        if (!checkSpecificColumn(board, cell)) return false;
+        // if (!checkAdjacencyInRow(board, cell)) return false;
+        // if (!checkAdjacencyInColumn(board, cell)) return false;
+
+        return true;
+    }
+
+    private State selectUnassignedCell(Board board) {
+        return MRV(board);
+    }
+
+    private State MRV(Board board) {
+        int minRemainingValues = Integer.MAX_VALUE;
+        State minRemainingValuesCell = null;
+        int size = board.getSize();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                State cell = board.getCell(i, j);
                 if (cell.getValue().equals("e")) {
-                    return cell;
+                    if (cell.getRemainingValues().size() < minRemainingValues) {
+                        minRemainingValues = cell.getRemainingValues().size();
+                        minRemainingValuesCell = cell;
+                    }
                 }
             }
         }
-        return null;
+        return minRemainingValuesCell;
     }
 
     private boolean checkNumberOfCircles(Board board) {
@@ -92,6 +115,68 @@ public class Binairo {
                 return false;
             }
         }
+        return true;
+    }
+
+    private boolean checkSpecificRow(Board board, State cell) {
+        int size = board.getSize();
+        int row = board.getPositionOfCell(cell).getX();
+        int valueCount = 0;
+        for (int j = 0; j < size; j++) {
+            String value = board.getCell(row, j).getValue();
+            if (value.equals(cell.getValue())) {
+                valueCount++;
+            }
+        }
+        return valueCount <= size / 2;
+    }
+
+    private boolean checkSpecificColumn(Board board, State cell) {
+        int size = board.getSize();
+        int column = board.getPositionOfCell(cell).getY();
+        int valueCount = 0;
+        for (int i = 0; i < size; i++) {
+            String value = board.getCell(i, column).getValue();
+            if (value.equals(cell.getValue())) {
+                valueCount++;
+            }
+        }
+        return valueCount <= size / 2;
+    }
+
+    private boolean checkAdjacencyInRow(Board board, State cell) {
+        int size = board.getSize();
+        int row = board.getPositionOfCell(cell).getX();
+        int column = board.getPositionOfCell(cell).getY();
+        for (int j = column - 2; j <= column + 2; j++) {
+            if (j >= 0 && j < size - 2) {
+                String c1 = board.getCell(row, j).getValue();
+                String c2 = board.getCell(row, j + 1).getValue();
+                String c3 = board.getCell(row, j + 2).getValue();
+                if (c1.equals(c2) && c2.equals(c3) && !c1.equals("e")) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    }
+
+    private boolean checkAdjacencyInColumn(Board board, State cell) {
+        int size = board.getSize();
+        int row = board.getPositionOfCell(cell).getX();
+        int column = board.getPositionOfCell(cell).getY();
+        for (int i = row - 2; i <= row + 2; i++) {
+            if (i >= 0 && i < size - 2) {
+                String c1 = board.getCell(i, column).getValue();
+                String c2 = board.getCell(i + 1, column).getValue();
+                String c3 = board.getCell(i + 2, column).getValue();
+                if (c1.equals(c2) && c2.equals(c3) && !c1.equals("e")) {
+                    return false;
+                }
+            }
+        }
+
         return true;
     }
 
