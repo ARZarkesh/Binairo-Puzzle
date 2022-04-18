@@ -57,7 +57,7 @@ public class Binairo {
     }
 
     private boolean forwardCheck(Board board, State cell) {
-        if (backtrackingCount % 10 != 0) return true;
+        if (backtrackingCount % 10 != 0) return true; // skip forward check every 10th backtracking
         int size = board.getSize();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
