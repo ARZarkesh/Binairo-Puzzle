@@ -55,12 +55,32 @@ public class Binairo {
     }
 
     private boolean forwardCheck(Board board, State cell) {
-        if (!checkSpecificRow(board, cell))
-            return false;
-        if (!checkSpecificColumn(board, cell))
-            return false;
-        // if (!checkAdjacencyInRow(board, cell)) return false;
-        // if (!checkAdjacencyInColumn(board, cell)) return false;
+        int size = board.getSize();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                State targetCell = board.getCell(i, j);
+                if (targetCell.getValue().equals("e")) {
+                    int count = 0;
+                    for (String value : cell.getRemainingValues()) {
+                        targetCell.set(value, false);
+                        if (checkSpecificRow(board, targetCell)
+                                &&
+                                checkSpecificColumn(board, targetCell)
+                                &&
+                                checkAdjacencyInRow(board, targetCell)
+                                &&
+                                checkAdjacencyInColumn(board, targetCell)) {
+                            count++;
+                        }
+                        targetCell.set("e", false);
+                    }
+
+                    if (count == 0) {
+                        return false;
+                    }
+                }
+            }
+        }
 
         return true;
     }
