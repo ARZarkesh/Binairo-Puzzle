@@ -35,6 +35,8 @@ public class Binairo {
         State unassignedCell = selectUnassignedCell(board);
         for (String value : unassignedCell.getRemainingValues()) {
             unassignedCell.set(value, false);
+            // board.print();
+            // drawLine();
             if (isConsistent(board)) {
                 // forward check
                 if (forwardCheck(board, unassignedCell)) {
@@ -44,15 +46,19 @@ public class Binairo {
                 }
             }
             unassignedCell.set("e", false);
-            unassignedCell.resetRemainingValues();
+            // board.print();
+            // drawLine();
+            // unassignedCell.resetRemainingValues();
         }
 
         return false;
     }
 
     private boolean forwardCheck(Board board, State cell) {
-        if (!checkSpecificRow(board, cell)) return false;
-        if (!checkSpecificColumn(board, cell)) return false;
+        if (!checkSpecificRow(board, cell))
+            return false;
+        if (!checkSpecificColumn(board, cell))
+            return false;
         // if (!checkAdjacencyInRow(board, cell)) return false;
         // if (!checkAdjacencyInColumn(board, cell)) return false;
 
@@ -60,7 +66,17 @@ public class Binairo {
     }
 
     private State selectUnassignedCell(Board board) {
-        return MRV(board);
+        int size = board.getSize();
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (board.getCell(i, j).getValue().equals("e")) {
+                    return board.getCell(i, j);
+                }
+            }
+        }
+
+        return null;
+        // return MRV(board);
     }
 
     private State MRV(Board board) {
@@ -232,7 +248,8 @@ public class Binairo {
             for (int k = j + 1; k < size; k++) {
                 int count = 0;
                 for (int i = 0; i < size; i++) {
-                    if (board.getCell(i, j).getValue().equals(board.getCell(i, k).getValue())) {
+                    String value = board.getCell(i, j).getValue();
+                    if (value.equals(board.getCell(i, k).getValue()) && !value.equals("e")) {
                         count++;
                     }
                 }
