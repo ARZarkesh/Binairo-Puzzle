@@ -1,5 +1,6 @@
 public class Binairo {
     private final Board board;
+    private int backtrackingCount = 0;
 
     public Binairo(Board board) {
         this.board = board;
@@ -28,6 +29,7 @@ public class Binairo {
     }
 
     private boolean recursiveBacktrack(Board board) {
+        backtrackingCount++;
         if (isFinished(board)) {
             return true;
         }
@@ -55,6 +57,7 @@ public class Binairo {
     }
 
     private boolean forwardCheck(Board board, State cell) {
+        if (backtrackingCount % 10 != 0) return true;
         int size = board.getSize();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
