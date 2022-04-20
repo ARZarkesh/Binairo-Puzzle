@@ -76,7 +76,6 @@ public class Binairo {
                             count++;
                             break;  // if there is at least one possible value, break
                         }
-                        targetCell.set("e", false);
                     }
 
                     targetCell.set("e", false);
