@@ -74,10 +74,12 @@ public class Binairo {
                                 &&
                                 checkAdjacencyInColumn(board, targetCell)) {
                             count++;
+                            break;  // if there is at least one possible value, break
                         }
                         targetCell.set("e", false);
                     }
 
+                    targetCell.set("e", false);
                     if (count == 0) {
                         return false;
                     }
