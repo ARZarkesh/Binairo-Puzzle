@@ -3,8 +3,7 @@ import java.util.Arrays;
 
 public class State {
   private String value;
-  private ArrayList<String> domain = new ArrayList<>(Arrays.asList("w", "b"));
-  // remaining values
+  private ArrayList<String> domain = new ArrayList<>(Arrays.asList("b", "w"));
   private ArrayList<String> remainingValues;
   private boolean isDefault;
 
