@@ -41,7 +41,7 @@ public class Binairo {
             // drawLine();
             if (isConsistent(board)) {
                 // forward check
-                if (forwardCheck(board, unassignedCell)) {
+                if (forwardCheck(board)) {
                     if (recursiveBacktrack(board)) {
                         return true;
                     }
@@ -56,7 +56,7 @@ public class Binairo {
         return false;
     }
 
-    private boolean forwardCheck(Board board, State cell) {
+    private boolean forwardCheck(Board board) {
         if (backtrackingCount % 10 != 0) return true; // skip forward check every 10th backtracking
         int size = board.getSize();
         for (int i = 0; i < size; i++) {
@@ -64,7 +64,7 @@ public class Binairo {
                 State targetCell = board.getCell(i, j);
                 if (targetCell.getValue().equals("e")) {
                     int count = 0;
-                    for (String value : cell.getRemainingValues()) {
+                    for (String value : targetCell.getRemainingValues()) {
                         targetCell.set(value, false);
                         if (checkSpecificRow(board, targetCell)
                                 &&
