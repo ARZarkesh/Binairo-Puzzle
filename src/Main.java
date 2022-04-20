@@ -6,7 +6,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        File input = new File("inputs/input3.txt");
+        File input = new File("inputs/input1.txt");
         try {
             Scanner reader = new Scanner(input);
             int boardSize = reader.nextInt();
@@ -16,14 +16,13 @@ public class Main {
             for (int i = 0; i < m; i++) {
                 int x = reader.nextInt();
                 int y = reader.nextInt();
-                int numberValue = reader.nextInt();
-                String stringValue = switch (numberValue) {
+                String value = switch (reader.nextInt()) {
                     case 0 -> "w"; // white
                     case 1 -> "b"; // black
                     default -> null;
                 };
 
-                board.getCell(x, y).set(stringValue, true);
+                board.getCell(x, y).set(value, true);
 
             }
             Binairo binairo = new Binairo(board);
